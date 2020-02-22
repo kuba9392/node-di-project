@@ -22,6 +22,7 @@ db.connect().then((connection) => {
     app.get('/posts', postController.listAction);
     app.post('/posts', postController.createAction);
     app.put('/posts/:id', postController.updateAction);
+    app.delete('/posts/:id', postController.deleteAction);
 
     app.listen(8050, () => {
         console.log("Listening on port 8050");
