@@ -1,9 +1,10 @@
-const CreatePostUseCase = require('./create-post.use-case.js');
+const UpdatePostUseCase = require('./update-post.use-case.js');
 const RepositoryManager = require('../../database/repository.manager.js');
-const PostCreateRequestDto = require('../dto/post-request.dto.js');
+const PostRequestDto = require('../dto/post-request.dto.js');
+const Post = require('../models/post');
 const Container = require('typedi').Container;
 
-describe("CreatePostUseCase", () => {
+describe("UpdatePostUseCase", () => {
     let repository = {};
 
     const repositoryManager  = new RepositoryManager({});
@@ -19,17 +20,21 @@ describe("CreatePostUseCase", () => {
         return repository;
     });
 
-    const useCase = new CreatePostUseCase(Container);
+    const useCase = new UpdatePostUseCase(Container);
     describe("execute method", () => {
-        it("should create new entity", async () => {
-            const post = new PostCreateRequestDto('test', 'test');
+        it("should update existing entity", async () => {
+            const post = new Post(1, 'test', 'test');
+            const body = new PostRequestDto('test-title', 'test-body');
+            const updatedPost = {id: 1, title: 'test-title', content: 'test-body'};
+            repository.findOne = jest.fn(async () => post);
             repository.save = jest.fn(async () => { });
 
-            await useCase.execute(post);
+            await useCase.execute(1, body);
 
             expect(repositoryManager.getRepository).toBeCalledTimes(1);
+            expect(repository.findOne).toBeCalledTimes(1);
             expect(repository.save).toBeCalledTimes(1);
-            expect(repository.save).toBeCalledWith(post);
+            expect(repository.save).toBeCalledWith(expect.objectContaining(updatedPost));
         });
     })
 });

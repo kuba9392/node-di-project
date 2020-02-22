@@ -21,6 +21,7 @@ db.connect().then((connection) => {
     const postController = Container.get(PostController);
     app.get('/posts', postController.listAction);
     app.post('/posts', postController.createAction);
+    app.put('/posts/:id', postController.updateAction);
 
     app.listen(8050, () => {
         console.log("Listening on port 8050");

@@ -9,6 +9,12 @@ describe("ListPostsUseCase", () => {
     const repositoryManager  = new RepositoryManager({});
     Container.set('repositoryManager', repositoryManager);
 
+    /*
+        Do not mock external libraries which aren't under your control ever.
+        I've done this to make the code as readable as possible.
+        In the project which will be long-term developed this can be really painful when the implementation of library
+        will change.
+     */
     jest.spyOn(repositoryManager, 'getRepository').mockImplementation(() => {
         return repository;
     });

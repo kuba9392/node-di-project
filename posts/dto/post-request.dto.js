@@ -1,4 +1,4 @@
-class PostCreateRequestDto {
+class PostRequestDto {
     constructor(title, content) {
         this.title = title;
         this.content = content;
@@ -9,4 +9,4 @@ class PostCreateRequestDto {
     }
 }
 
-module.exports = PostCreateRequestDto;
+module.exports = PostRequestDto;
